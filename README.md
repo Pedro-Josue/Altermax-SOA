@@ -15,51 +15,7 @@ API de inteligência competitiva automotiva que compara um veículo Ford armazen
 
 O Altermax é um **monólito modular** 
 
-```mermaid
-flowchart LR
-    subgraph CLIENT["Cliente"]
-        Client["Cliente<br/>Swagger · Postman"]
-    end
-
-    subgraph APP["Aplicação Spring Boot — monólito modular"]
-        direction TB
-        Auth["auth<br/>usuários · roles · JWT"]
-        Ford["fordcatalog<br/>catálogo Ford · CRUD"]
-        Competitor["competitor<br/>fronteira Cars-Data"]
-        Comparison["comparison<br/>orquestração · normalização"]
-        History["history<br/>snapshots · consultas"]
-
-        subgraph COMMON["Elementos compartilhados"]
-            Shared["shared<br/>erros · OpenAPI"]
-        end
-    end
-
-    subgraph EXTERNAL["Integração externa"]
-        Cars["Cars-Data API"]
-    end
-
-    subgraph PERSISTENCE["Persistência"]
-        H2[("H2 em memória")]
-    end
-
-    CLIENT -->|API REST| APP
-    Comparison -->|FordVehicleCatalog| Ford
-    Comparison -->|CompetitorCatalog| Competitor
-    Comparison -->|ComparisonHistoryRecorder| History
-    APP -->|competitor| EXTERNAL
-    APP -->|auth · fordcatalog · history| PERSISTENCE
-
-    classDef client fill:#eaf1f8,stroke:#60758a,color:#1f2933
-    classDef module fill:#eef3f7,stroke:#64748b,color:#1f2933
-    classDef shared fill:#f5f5f4,stroke:#78716c,color:#292524
-    classDef external fill:#fff7e8,stroke:#a87932,color:#3f3120
-    classDef storage fill:#edf7ef,stroke:#5f8065,color:#203426
-    class Client client
-    class Auth,Ford,Competitor,Comparison,History module
-    class Shared shared
-    class Cars external
-    class H2 storage
-```
+<img width="1406" height="276" alt="diagram-1790263041840" src="https://github.com/user-attachments/assets/b17faef1-8ece-4335-969c-06277f9cac47" />
 
 ### Módulos e dependências
 
@@ -76,32 +32,7 @@ Os repositories são package-private e permanecem no módulo proprietário. Cont
 
 ## Segurança e JWT
 
-```mermaid
-%%{init: {"sequence": {"mirrorActors": false}}}%%
-sequenceDiagram
-    participant C as Cliente
-    participant A as AuthController
-    participant S as Authentication<br/>Service
-    participant U as UserDetailsService<br/>H2
-    participant J as JwtService
-
-    rect rgb(239, 245, 250)
-        Note over C,J: Login
-        C->>A: POST /api/auth/login
-        A->>S: username + password
-        S->>U: Validar credencial BCrypt
-        U-->>S: Usuário + roles
-        S->>J: Gerar JWT assinado
-        J-->>S: JWT (sub, roles, iat, exp)
-        S-->>C: 200 + Bearer token
-    end
-
-    rect rgb(247, 247, 245)
-        Note over C,J: Acesso autenticado
-        C->>A: Recurso + Authorization: Bearer
-        A->>J: Validar assinatura e expiração
-    end
-```
+<img width="2360" height="1292" alt="diagrama-jwt" src="https://github.com/user-attachments/assets/731387a6-a058-4abc-aebb-ce6bc81bf770" />
 
 Tokens são assinados com HMAC, têm uma hora de validade, carregam apenas `sub`, `roles`, `iat` e `exp`, e nunca incluem senha. O filtro rejeita token ausente, adulterado ou expirado com `401`; usuário autenticado sem role recebe `403`.
 
@@ -114,39 +45,7 @@ Tokens são assinados com HMAC, têm uma hora de validade, carregam apenas `sub`
 
 ## Fluxo de comparação
 
-```mermaid
-%%{init: {"sequence": {"mirrorActors": false}}}%%
-sequenceDiagram
-    participant C as Cliente
-    participant CS as Comparison<br/>Service
-    participant F as FordVehicle<br/>Catalog
-    participant E as Competitor<br/>Catalog
-    participant API as Cars-Data
-    participant N as Normalization<br/>Service
-    participant H as History<br/>Recorder
-
-    C->>CS: POST /api/comparisons
-
-    rect rgb(239, 245, 250)
-        Note over CS,API: Carregar fontes
-        CS->>F: getById(fordVehicleId)
-        F-->>CS: Ford + specs (H2)
-        CS->>E: getDetails(externalId)
-        E->>API: Buscar variante + especificações
-        API-->>E: JSON externo
-        E-->>CS: Modelo interno
-    end
-
-    rect rgb(247, 247, 245)
-        Note over CS,H: Normalizar e registrar
-        CS->>N: Alinhar atributos + unidades
-        N-->>CS: 2 schemas idênticos
-        CS->>H: Gravar snapshot bem-sucedido
-        H-->>CS: comparisonId
-    end
-
-    CS-->>C: 201 + Location
-```
+<img width="2760" height="1434" alt="fluxo-comp" src="https://github.com/user-attachments/assets/df95da9e-b995-40c0-a41f-7ec0dac41001" />
 
 ## Tecnologias e pré-requisitos
 
