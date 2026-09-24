@@ -1,0 +1,16 @@
+{
+  "data": {
+    "variant_id": 103927,
+    "generation_id": 7794,
+    "display_name": "Toyota Hilux Xtra Cabine 2.8 D-4D 4WD Invincible",
+    "power_hp": 204,
+    "top_speed_kmh": 195,
+    "torque_nm": 500,
+    "accel_0_100_s": 10.5,
+    "fuel_slug": "diesel",
+    "body_type_en": "Pickup",
+    "price_new_eur": 37145,
+    "spec_count": 179,
+    "specs": {}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "data": {
+    "variant_id": 40001,
+    "display_name": "Mercedes-Benz C-Class C 300",
+    "brand_slug": "mercedes-benz",
+    "model_slug": "c-class",
+    "generation_id": 9001,
+    "year_from": 2022,
+    "year_to": 2024
+  }
+}

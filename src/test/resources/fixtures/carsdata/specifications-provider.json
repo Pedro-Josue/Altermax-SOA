@@ -1,0 +1,9 @@
+{
+  "specs": {
+    "power_hp": {"value": 204, "unit": "hp"},
+    "top_speed_kmh": {"value": 195, "unit": "km/h"},
+    "torque_nm": {"value": 500, "unit": "Nm"},
+    "acceleration_0_100_s": {"value": 10.5, "unit": "s"},
+    "fuel_type": {"value": "diesel"}
+  }
+}
