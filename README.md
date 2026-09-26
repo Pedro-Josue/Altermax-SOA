@@ -1,6 +1,12 @@
 # Altermax
 
-API de inteligência competitiva automotiva que compara um veículo Ford armazenado localmente com uma variante concorrente consultada no fornecedor Cars-Data. O resultado usa um schema comum, normaliza unidades, explicita dados ausentes e fica registrado no histórico da execução.
+API de inteligência competitiva automotiva que compara um veículo Ford armazenado localmente com uma variante concorrente consultada no fornecedor Cars-Data. O resultado usa um schema comum, normaliza unidades, explicita dados ausentes e fica registrado no histórico da execução.\
+
+## Integrantes
+
+- Guilherme Santos Nunes – RM558989
+- Kaique Rodrigues Zaffarani – RM556677
+- Pedro Josué Pereira Almeida – RM554913
 
 ## Visão funcional
 
